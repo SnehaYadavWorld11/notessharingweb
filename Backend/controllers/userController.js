@@ -66,61 +66,41 @@ async function createUser(req, res) {
         .json({ success: false, message: "Please fill  the email" });
     }
 
-    const checkForExistingUser = await User.findOne({ email });
+    let checkForExistingUser = await User.findOne({ email });
 
     if (checkForExistingUser) {
-      if (checkForExistingUser.googleAuth) {
-        return res.status(400).json({
-          success: true,
-          message:
-            "This email is registered with Google. Please use Google singin",
-        });
-      }
-
       if (checkForExistingUser.isVerify) {
+        if (checkForExistingUser.googleAuth) {
+          return res.status(400).json({
+            success: true,
+            message:
+              "This email already registered  google.  Please try through continue with google",
+          });
+        }
         return res.status(400).json({
           success: false,
-          message: "Email already exists. Please use a different email",
+          message: "this email is already exist please try with new email id ",
         });
       } else {
         let verificationToken = await generateJWT({
           email: checkForExistingUser.email,
           id: checkForExistingUser._id,
         });
-      }
 
-      // if (checkForExistingUser) {
-      //   if (checkForExistingUser.isVerify) {
-      //     if (checkForExistingUser.googleAuth) {
-      //       return res.status(400).json({
-      //         success: true,
-      //         message:
-      //           "This email already registered  google.  Please try through continue with google",
-      //       });
-      //     }
-      //     return res.status(400).json({
-      //       success: false,
-      //       message: "this email is already exist please try with new email id ",
-      //     });
-      //   } else {
-      //     let verificationToken = await generateJWT({
-      //       email: checkForExistingUser.email,
-      //       id: checkForExistingUser._id,
-      //     });
-
-      const sendingEmail = transporter.sendMail({
-        from: EMAIL_USER,
-        to: checkForExistingUser.email,
-        subject: "Email Verification",
-        text: "Please Verify Your Email",
-        html: `<h1>Click on the link to verify your email</h1>
+        const sendingEmail = transporter.sendMail({
+          from: EMAIL_USER,
+          to: checkForExistingUser.email,
+          subject: "Email Verification",
+          text: "Please Verify Your Email",
+          html: `<h1>Click on the link to verify your email</h1>
             <a href="${FRONTEND_URL}/verify-email/${verificationToken}">Verify Email</a>`,
-      });
+        });
 
-      return res.status(200).json({
-        success: false,
-        message: "Please Check Your Email For Varification",
-      });
+        return res.status(404).json({
+          success: false,
+          message: "Please Check Your Email For Varification",
+        });
+      }
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
@@ -152,8 +132,7 @@ async function createUser(req, res) {
   } catch (error) {
     return res
       .status(500)
-      .json({ success: false, message: "Please Try Again",error: error.message });
-
+      .json({ success: false, message: "Please Try Again" });
   }
 }
 
@@ -295,7 +274,7 @@ async function login(req, res) {
       return res.status(400).json({
         success: true,
         message:
-          "This email already registered  google.  Please use Google signin ",
+          "This email already registered  google.  Please try through continue with google",
       });
     }
 
@@ -350,7 +329,7 @@ async function login(req, res) {
       },
     });
   } catch (error) {
-    return res.status(500).json({ success: false, message: "Please try again", error : error.message });
+    return res.status(500).json({ success: false, message: message.error });
   }
 }
 
