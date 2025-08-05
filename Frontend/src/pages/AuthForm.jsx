@@ -53,10 +53,9 @@ function AuthForm({ type }) {
           accessToken: data.accessToken,
         }
       );
-      // console.log(res);
-      // dispatch(login(res.data.user));
-      // toast.success(res.data.message);
-      // navigate("/");
+      dispatch(login(res.data.user));
+      toast.success(res.data.message);
+      navigate("/");
     } catch (error) {
       toast.error(error.response?.data?.message);
     }
