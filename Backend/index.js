@@ -12,8 +12,25 @@ const port = PORT  || 5000;
 
 
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://notessharingweb.vercel.app",
+  FRONTEND_URL
+].filter(Boolean);
+
 app.use(express.json());
-app.use(cors({origin: FRONTEND_URL}));
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.some(allowedOrigin => {
+      if (typeof allowedOrigin === 'string') return origin === allowedOrigin;
+      if (allowedOrigin instanceof RegExp) return allowedOrigin.test(origin);
+      return false;
+    })) return callback(null, true);
+    return callback(new Error(`CORS blocked: ${origin}`), false);
+  },
+  credentials: true
+}));
 
 
 
