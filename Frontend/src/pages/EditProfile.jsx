@@ -66,7 +66,7 @@ function EditProfile() {
       );
 
       toast.success(res.data.message);
-      dispatch(login({...res.data.user,token,email,id:userId }))
+      dispatch(login({ ...res.data.user, token, email, id: userId }));
     } catch (error) {
       toast.error(error.response?.data?.message);
     }
@@ -82,7 +82,9 @@ function EditProfile() {
   return (
     <div className="w-full">
       <div className="w-full md:w-[80%] lg:w-[60%] xl:w-[40%] mx-auto px-4 sm:px-6 md:px-10">
-        <h1 className="text-center text-2xl sm:text-3xl font-medium my-6 sm:my-10">Edit Profile</h1>
+        <h1 className="text-center text-2xl sm:text-3xl font-medium my-6 sm:my-10">
+          Edit Profile
+        </h1>
         <div>
           <div className="my-4">
             <h1 className="text-lg sm:text-xl font-semibold my-2 text-gray-600">
@@ -133,7 +135,10 @@ function EditProfile() {
               <h2
                 className="text-base sm:text-lg text-red-600 hover:font-bold cursor-pointer"
                 onClick={() => {
-                  setUserData((prevData) => ({ ...prevData, profilePic: null }));
+                  setUserData((prevData) => ({
+                    ...prevData,
+                    profilePic: null,
+                  }));
                 }}
               >
                 Remove
@@ -150,7 +155,9 @@ function EditProfile() {
           </div>
 
           <div className="my-4">
-            <label className="block text-gray-700 text-sm sm:text-base mb-1 sm:mb-2">Name</label>
+            <label className="block text-gray-700 text-sm sm:text-base mb-1 sm:mb-2">
+              Name
+            </label>
             <input
               name="name"
               className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -162,7 +169,9 @@ function EditProfile() {
           </div>
 
           <div className="my-4">
-            <label className="block text-gray-700 text-sm sm:text-base mb-1 sm:mb-2">Username</label>
+            <label className="block text-gray-700 text-sm sm:text-base mb-1 sm:mb-2">
+              Username
+            </label>
             <textarea
               name="username"
               className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg h-24 sm:h-32 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -173,7 +182,9 @@ function EditProfile() {
           </div>
 
           <div className="my-4">
-            <label className="block text-gray-700 text-sm sm:text-base mb-1 sm:mb-2">Bio</label>
+            <label className="block text-gray-700 text-sm sm:text-base mb-1 sm:mb-2">
+              Bio
+            </label>
             <textarea
               name="bio"
               className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg h-24 sm:h-32 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -182,16 +193,23 @@ function EditProfile() {
               onChange={handleChange}
             />
           </div>
-
-          <button
-            disabled={buttonDisabled}
-            className={`px-4 py-1 sm:px-6 sm:py-2 rounded-full text-white my-2 sm:my-3 text-lg sm:text-xl font-semibold ${
-              buttonDisabled ? " bg-green-200" : "bg-green-500"
-            }`}
-            onClick={handleUpdateProfile}
-          >
-            Update
-          </button>
+          <div className="flex gap-2">
+            <button
+              disabled={buttonDisabled}
+              className={`px-4 py-1 sm:px-6 sm:py-2 rounded-full text-white my-2 sm:my-3 text-lg sm:text-xl font-semibold ${
+                buttonDisabled ? " bg-green-200" : "bg-green-500"
+              }`}
+              onClick={handleUpdateProfile}
+            >
+              Update
+            </button>
+            <button
+              className={`px-4 py-1 sm:px-6 sm:py-2 rounded-full text-white bg-black  my-2 sm:my-3 text-lg sm:text-xl font-semibold`}
+              onClick={() => navigate(-1)}
+            >
+              Back
+            </button>
+          </div>
         </div>
       </div>
     </div>
