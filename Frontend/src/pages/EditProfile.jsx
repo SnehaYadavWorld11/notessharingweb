@@ -8,7 +8,7 @@ import { Navigate } from "react-router-dom";
 function EditProfile() {
   const {
     token,
-    id: userId,
+    _id: userId,
     email,
     name,
     username,

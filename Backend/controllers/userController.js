@@ -102,8 +102,6 @@ async function createUser(req, res) {
         });
       }
     }
-    
-
     const hashPassword = await bcrypt.hash(password, 10);
     const username = email.split("@")[0] + randomUUID();
     let newUser = await User.create({
@@ -180,7 +178,6 @@ async function googleAuth(req, res) {
     const response = await getAuth().verifyIdToken(accessToken);
     const { name, email } = response;
     let user = await User.findOne({ email });
-
     if (user) {
       if (user.googleAuth) {
         let token = await generateJWT({
