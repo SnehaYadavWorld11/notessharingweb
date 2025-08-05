@@ -18,6 +18,7 @@ const allowedOrigins = [
   FRONTEND_URL
 ].filter(Boolean);
 
+
 app.use(express.json());
 app.use(cors({
   origin: (origin, callback) => {
