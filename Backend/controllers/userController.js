@@ -102,6 +102,7 @@ async function createUser(req, res) {
         });
       }
     }
+    
 
     const hashPassword = await bcrypt.hash(password, 10);
     const username = email.split("@")[0] + randomUUID();
