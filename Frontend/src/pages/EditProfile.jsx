@@ -8,13 +8,14 @@ import { Navigate, useNavigate } from "react-router-dom";
 function EditProfile() {
   const {
     token,
-    _id: userId,
+    id: userId,
     email,
     name,
     username,
     profilePic,
     bio,
   } = useSelector((state) => state.user);
+  console.log(userId);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -68,6 +69,7 @@ function EditProfile() {
 
       toast.success(res.data.message);
       dispatch(login({ ...res.data.user, token, email, id: userId }));
+      navigate(-1);
     } catch (error) {
       toast.error(error.response?.data?.message);
     }
